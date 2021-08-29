@@ -1,0 +1,53 @@
+# To really understand GraphQL, go to https://graphql.org/learn/
+
+type Book {
+  authors: [String!]
+  cacheId: ID!
+  id: ID!
+  name: String
+}
+
+# It is necessary to generate input types for creating books
+# ref: http://graphql.org/graphql-js/mutations-and-input-types/
+input BookInput {
+  authors: [String!]
+  cacheId: ID
+  id: ID
+  name: String
+}
+
+type Query {
+  # Cache control can only be set at root fields
+  book(id: ID!): Book
+  books(from: Int = 0, to: Int = 4): [Book] @cacheControl(scope: PUBLIC, maxAge: SHORT)
+  total: Int
+
+  """
+  Returns a markdown source given an id
+  """
+  source(id: ID!): String
+   lead(email: String!): Lead
+   leadsMock(from: Int = 0, to: Int = 4): [Lead] @cacheControl(scope: PUBLIC, maxAge: SHORT)
+   leads: [Lead] @cacheControl(scope: PUBLIC, maxAge: SHORT)
+   totalLeads : Int
+}
+
+type Mutation {
+  # You should always return the whole object in a mutation, not only a boolean. This will help in browser caching
+  delete(id: String): Boolean
+  editBook(id: ID!, book: BookInput!): Book
+  newBook(book: BookInput!): Book
+  addCliente(nome: String!,email: String!,telefone: String!): Lead
+  editCliente(email: String!): Lead
+  deleteCliente(email: String): Lead
+}
+
+type Lead {
+  clienteId: String
+  nome: String
+  email: String
+  telefone: String
+  tipo: String
+  created_at: String
+  updated_at: String
+}
