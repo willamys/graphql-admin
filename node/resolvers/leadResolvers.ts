@@ -21,13 +21,11 @@ export const lead = async (
   return data
 }
 
-export const leads = async (
+export const leads = (
   _: any,
-  ctx: Context
-) => {
-  const data = await ctx.clients.lead.getAllLeads();
-  return data
-}
+  __: any,
+  { clients: { lead: LeadClient } }: Context
+) => LeadClient.getAllLeads()
 
 
 export const totalLeads = (

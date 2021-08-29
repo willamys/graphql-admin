@@ -8,7 +8,7 @@ export class LeadClient extends ExternalClient {
   private results = mock;
 
   private routes = {
-    leads: () => `/clientes`,
+    getAllLeads: () => `/clientes`,
     getlead: (email: string) => `/clientes/${email}`,
     updatelead: (email: string) => `/clientes/${email}`,
   }
@@ -26,7 +26,7 @@ export class LeadClient extends ExternalClient {
 
   public createLead({ ...leadData }) {
     return this.http.post(
-      this.routes.leads(),
+      this.routes.getAllLeads(),
       leadData,
       {
         metric: 'lead-create',
@@ -56,13 +56,13 @@ export class LeadClient extends ExternalClient {
     this.results.slice(Math.max(from, 0), Math.min(to, this.results.length))
 
 
-  public async leads(): Promise<Lead[]> {
-    const response = await this.get(this.routes.leads(),
+
+  public async getAllLeads() {
+    return await this.get(this.routes.getAllLeads(),
       {
         metric: 'leads-get',
       }
     )
-    return response;
   }
 
   private get(url: string, config?: RequestConfig) {

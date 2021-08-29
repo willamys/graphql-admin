@@ -20,7 +20,8 @@ import { newBook } from './resolvers/newBook'
 // import { lead } from './resolvers/leads/leadResolvers'
 // import { leads } from './resolvers/leads'
 import { someStates } from './middlewares/someStates'
-import { queries } from './resolvers/leads'
+// import { queries } from './resolvers/leads'
+import { leads, lead, leadsMock } from './resolvers/leadResolvers';
 
 const MEDIUM_TIMEOUT_MS = 2 * 1000
 const memoryCache = new LRUCache<string, any>({ max: 5000 })
@@ -75,14 +76,19 @@ export default new Service<Clients, RecorderState, ParamsContext>({
         editBook,
         newBook,
       },
-      Query:
-        // book,
-        //books,
-        //source,
-        //total,
-        //lead,
-        //leads
-        queries
+      Query: {
+        lead,
+        leads,
+        leadsMock
+      }
+      // book,
+      //books,
+      //source,
+      //total,
+      //lead,
+      //leads
+
+      //queries
     },
   },
 })
